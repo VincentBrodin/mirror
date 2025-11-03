@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useInterval from "../hooks/interval";
-import { FaAngleUp, FaAngleDown, } from "react-icons/fa";
 import { FaWind, FaGlasses, FaCloud, FaTemperatureArrowDown, FaTemperatureArrowUp, FaTemperatureEmpty } from "react-icons/fa6";
 import OpenWeatherMap from "openweathermap-ts";
 import type { CurrentResponse } from "openweathermap-ts/dist/types";
