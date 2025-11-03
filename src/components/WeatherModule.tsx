@@ -1,9 +1,11 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import useInterval from "../hooks/interval";
 import { FaAngleUp, FaAngleDown, } from "react-icons/fa";
-import { FaWind, FaGlasses, FaCloud } from "react-icons/fa6";
+import { FaWind, FaGlasses, FaCloud, FaTemperatureArrowDown, FaTemperatureArrowUp, FaTemperatureEmpty } from "react-icons/fa6";
 import OpenWeatherMap from "openweathermap-ts";
 import type { CurrentResponse } from "openweathermap-ts/dist/types";
+import Gauge from "./Gauge";
+import Meter from "./Meter";
 
 interface WeatherModuleProps {
   className: string;
@@ -29,55 +31,22 @@ export default function WeatherModule({ className, lat, lon }: WeatherModuleProp
   useInterval(updateForecast, 10 * 60 * 1000);
 
   return (
-    <div className={`${className} flex flex-col justify-center items-center gap-8 uppercase`}>
+    <div className={`${className} flex flex-col justify-center items-center gap-8 uppercase bloom-white`}>
       {weather == null && (
         <p>Could not fetch weather...</p>
       )}
       {weather != null && (
         <>
-          <div className="flex flex-row justify-center items-center gap-8">
-            <WeatherGauge value={weather.clouds.all} suffix={"%"} title={"CLOUD"} icon={<FaCloud className="text-2xl" />} />
-            <WeatherGauge value={weather.wind.speed} suffix={" m/s"} title={"WIND"} icon={<FaWind className="text-xl" />} />
-            <WeatherGauge value={(weather.visibility / 10_000) * 100} suffix={"%"} title={"RANGE"} icon={<FaGlasses className="text-xl" />} />
-          </div>
-
-          <div className="flex flex-row justify-center items-center gap-4 text-lg">
-            <div className="opacity-75 text-cyan-500 flex flex-row justify-center items-center gap-2">
-              <FaAngleDown />
-              <p>{weather.main.temp_min}</p>
-            </div>
-            <p>{weather.main.temp}</p>
-            <div className="opacity-75 text-red-500 flex flex-row justify-center items-center gap-2">
-              <FaAngleUp />
-              <p>{weather.main.temp_max}</p>
-            </div>
+          <div className="grid grid-cols-3 justify-center items-center gap-8">
+            <Gauge value={weather.clouds.all} stress={false} suffix={"%"} title={"CLOUD"} icon={<FaCloud className="text-xl" />} />
+            <Gauge value={weather.wind.speed} stress={false} suffix={" m/s"} title={"WIND"} icon={<FaWind className="text-xl" />} />
+            <Gauge value={(weather.visibility / 10_000) * 100} stress={false} suffix={"%"} title={"RANGE"} icon={<FaGlasses className="text-xl" />} />
+            <Meter value={`${weather.main.temp_min}°C`} title={"MIN"} icon={<FaTemperatureArrowDown className="text-xl" />} />
+            <Meter value={`${weather.main.temp}°C`} title={"NOW"} icon={<FaTemperatureEmpty className="text-xl" />} />
+            <Meter value={`${weather.main.temp_max}°C`} title={"MAX"} icon={<FaTemperatureArrowUp className="text-xl" />} />
           </div>
         </>
       )}
     </div>
   )
-}
-
-
-interface WeatherGaugeProps {
-  value: number;
-  suffix: string;
-  title: string;
-  icon: ReactNode;
-}
-
-function WeatherGauge({ value, suffix, title, icon }: WeatherGaugeProps) {
-  return (
-    <div className="flex flex-col justify-center items-center gap-4 text-center">
-      <p className="text opacity-75 font-big">// {title}</p>
-      <div
-        className="radial-progress flex flex-col justify-center items-center"
-        style={{ "--value": value, "--size": "6rem", "--thickness": "5px" } as React.CSSProperties}
-        aria-valuenow={value}
-        role="progressbar">
-        {icon}
-        <p className="text-lg">{value}{suffix}</p>
-      </div>
-    </div>
-  );
 }

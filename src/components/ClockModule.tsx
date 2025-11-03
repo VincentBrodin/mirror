@@ -54,7 +54,7 @@ export default function ClockModule({ className }: ClockModuleProps) {
 
   return (
 
-    <div className={`${className} flex flex-col gap-8 justify-center items-center uppercase`} >
+    <div className={`${className} flex flex-col gap-8 justify-center items-center uppercase bloom-white`} >
       <div className="radial-progress"
         style={{ "--value": dayProgress, "--size": "12rem", "--thickness": "10px" } as React.CSSProperties}
         aria-valuenow={dayProgress}

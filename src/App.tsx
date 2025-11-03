@@ -1,4 +1,5 @@
 import ClockModule from "./components/ClockModule"
+import SystemModule from "./components/SystemModule"
 import WeatherModule from "./components/WeatherModule"
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <div className='w-screen h-screen grid grid-cols-2 grid-rows-3 bg-black text-white'>
       <ClockModule className="row-start-1 col-start-1" />
       <WeatherModule className="row-start-1 col-start-2" lat={59.6191} lon={17.7234} />
+      <SystemModule className="row-start-3 col-start-2" />
     </div>
   )
 }
