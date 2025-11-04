@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useInterval from '../hooks/interval';
 
 interface NewsModuleProps {
@@ -42,22 +42,11 @@ export default function NewsModule({ className, links }: NewsModuleProps) {
   }, [links]);
   useInterval(grab, 1000 * 60 * 5);
   return (
-    <div className={`${className} max-h-full bloom-white`}>
+    <div className={`${className} max-h-full bloom-white p-4 outline`}>
       <div className="flex flex-col overflow-hidden h-full">
         <AnimatePresence initial={false}>
           {news.map(item => (
-            <motion.div
-              key={item.id}
-              layout
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-row gap-2 w-full"
-            >
-              <p className="text-nowrap">[{prettyDate(item.date)}]</p>
-              <p className="text-nowrap">{item.title}</p>
-            </motion.div>
+            <NewsItem key={item.id} item={item} />
           ))}
         </AnimatePresence>
       </div>
@@ -66,6 +55,39 @@ export default function NewsModule({ className, links }: NewsModuleProps) {
 }
 
 
+interface NewsItemProps {
+  item: News,
+}
+function NewsItem({ item }: NewsItemProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
+  const [shouldScroll, setShouldScroll] = useState(false);
+
+  useEffect(() => {
+    if (!containerRef.current || !textRef.current) return;
+
+    const containerWidth = containerRef.current.offsetWidth;
+    const textWidth = textRef.current.scrollWidth;
+
+    setShouldScroll(textWidth > containerWidth);
+  }, [item.title]);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-row gap-2 w-full"
+    >
+      <p className="text-nowrap shrink">[{prettyDate(item.date)}]</p>
+      <div className="grow overflow-hidden">
+        <p className={`${shouldScroll ? "animate-scroll" : ""} text-nowrap`}>{item.title}</p>
+      </div>
+    </motion.div>
+  );
+}
 async function getNews(link: string): Promise<News[]> {
   console.log("GRABBING " + link)
   try {

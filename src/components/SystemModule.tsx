@@ -42,7 +42,7 @@ export default function SystemModule({ className }: SystemModuleProps) {
   useInterval(updateSystem, 1000 * 10);
 
   return (
-    <div className={`${className} flex flex-col justify-center items-center gap-8 uppercase bloom-white`}>
+    <div className={`${className} flex flex-col justify-center items-center gap-8 uppercase bloom-white p-4`}>
       {system === null && (
         <p>Could not fetch system statistics...</p>
       )}
@@ -51,7 +51,7 @@ export default function SystemModule({ className }: SystemModuleProps) {
       )}
       {system !== null && system.expand !== null && (
         <>
-          <div className="grid grid-cols-3 justify-center items-center gap-8">
+          <div className="grid grid-cols-3 justify-center items-center gap-4">
             <Gauge value={system.stats.cpu} stress={true} suffix={"%"} title={"cpu"} icon={<FaMicrochip className="text-xl" />} />
             <Gauge value={system.stats.mp} stress={true} suffix={"%"} title={"memory"} icon={<FaMemory className="text-xl" />} />
             <Gauge value={system.stats.dp} stress={true} suffix={"%"} title={"disk"} icon={<FaRegFloppyDisk className="text-xl" />} />
