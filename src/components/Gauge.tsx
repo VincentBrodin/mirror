@@ -6,9 +6,10 @@ interface GaugeProps {
   title: string;
   icon: ReactNode;
   stress: boolean;
+  decimal: number;
 }
 
-export default function Gauge({ value, suffix, title, icon, stress }: GaugeProps) {
+export default function Gauge({ value, suffix, title, icon, stress, decimal }: GaugeProps) {
 
   return (
     <div className={`flex flex-col justify-center items-center gap-2 text-center ${getColor(stress, value)} ${getBloom(stress, value)}`}>
@@ -19,7 +20,7 @@ export default function Gauge({ value, suffix, title, icon, stress }: GaugeProps
         aria-valuenow={value}
         role="progressbar">
         {icon}
-        <p className="text-lg">{value}{suffix}</p>
+        <p className="text-lg">{value.toFixed(decimal)}{suffix}</p>
       </div>
     </div>
   );

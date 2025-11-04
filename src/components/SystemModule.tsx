@@ -52,10 +52,10 @@ export default function SystemModule({ className }: SystemModuleProps) {
       {system !== null && system.expand !== null && (
         <>
           <div className="grid grid-cols-3 justify-center items-center gap-4">
-            <Gauge value={system.stats.cpu} stress={true} suffix={"%"} title={"cpu"} icon={<FaMicrochip className="text-xl" />} />
-            <Gauge value={system.stats.mp} stress={true} suffix={"%"} title={"memory"} icon={<FaMemory className="text-xl" />} />
-            <Gauge value={system.stats.dp} stress={true} suffix={"%"} title={"disk"} icon={<FaRegFloppyDisk className="text-xl" />} />
-            <Gauge value={system.stats.t.coretemp_package_id_0} stress={true} suffix={"°C"} title={"temp"} icon={<FaTemperatureEmpty className="text-xl" />} />
+            <Gauge value={system.stats.cpu} stress={true} suffix={"%"} title={"cpu"} decimal={2} icon={<FaMicrochip className="text-xl" />} />
+            <Gauge value={system.stats.mp} stress={true} suffix={"%"} title={"memory"} decimal={2} icon={<FaMemory className="text-xl" />} />
+            <Gauge value={system.stats.dp} stress={true} suffix={"%"} title={"disk"} decimal={2} icon={<FaRegFloppyDisk className="text-xl" />} />
+            <Gauge value={system.stats.t.coretemp_package_id_0} stress={true} suffix={"°C"} decimal={2} title={"temp"} icon={<FaTemperatureEmpty className="text-xl" />} />
             <Meter value={`${prettyBytes(system.stats.ns)}/s`} title={"Sent"} icon={<FaAngleUp className="text-xl" />} />
             <Meter value={`${prettyBytes(system.stats.nr)}/s`} title={"Read"} icon={<FaAngleDown className="text-xl" />} />
           </div>

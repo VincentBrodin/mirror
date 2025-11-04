@@ -37,9 +37,9 @@ export default function WeatherModule({ className, lat, lon }: WeatherModuleProp
       {weather != null && (
         <>
           <div className="grid grid-cols-3 justify-center items-center gap-8">
-            <Gauge value={weather.clouds.all} stress={false} suffix={"%"} title={"CLOUD"} icon={<FaCloud className="text-xl" />} />
-            <Gauge value={weather.wind.speed} stress={false} suffix={" m/s"} title={"WIND"} icon={<FaWind className="text-xl" />} />
-            <Gauge value={(weather.visibility / 10_000) * 100} stress={false} suffix={"%"} title={"RANGE"} icon={<FaGlasses className="text-xl" />} />
+            <Gauge value={weather.clouds.all} stress={false} suffix={"%"} title={"CLOUD"} decimal={0} icon={<FaCloud className="text-xl" />} />
+            <Gauge value={weather.wind.speed} stress={false} suffix={" m/s"} title={"WIND"} decimal={1} icon={<FaWind className="text-xl" />} />
+            <Gauge value={(weather.visibility / 10_000) * 100} stress={false} suffix={"%"} decimal={0} title={"RANGE"} icon={<FaGlasses className="text-xl" />} />
             <Meter value={`${weather.main.temp_min}°C`} title={"MIN"} icon={<FaTemperatureArrowDown className="text-xl" />} />
             <Meter value={`${weather.main.temp}°C`} title={"NOW"} icon={<FaTemperatureEmpty className="text-xl" />} />
             <Meter value={`${weather.main.temp_max}°C`} title={"MAX"} icon={<FaTemperatureArrowUp className="text-xl" />} />
