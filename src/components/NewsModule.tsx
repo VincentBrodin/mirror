@@ -82,8 +82,8 @@ function NewsItem({ item }: NewsItemProps) {
       className="flex flex-row gap-2 w-full"
     >
       <p className="text-nowrap shrink">[{prettyDate(item.date)}]</p>
-      <div className="grow overflow-hidden">
-        <p className={`${shouldScroll ? "animate-scroll" : ""} text-nowrap`}>{item.title}</p>
+      <div ref={containerRef} className="grow overflow-hidden">
+        <p ref={textRef} className={`${shouldScroll ? "animate-scroll" : ""} text-nowrap`}>{item.title}</p>
       </div>
     </motion.div>
   );
