@@ -12,6 +12,8 @@ export default function SpotifyModule({ className }: SpotifyModuleProps) {
   const [playPercent, setPlayPercent] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
   const [fetching, setFetching] = useState<boolean>(false);
+  const [start, setStart] = useState<number>(0);
+
   useEffect(() => {
     console.log("SETTING UP SPOTIFY");
     if (sdk === null) {
@@ -28,7 +30,8 @@ export default function SpotifyModule({ className }: SpotifyModuleProps) {
     console.log("UPDATING TRACK");
     try {
       const track = await sdk.player.getCurrentlyPlayingTrack();
-      console.log(track);
+      const now = new Date();
+      setStart(now.getTime() - track.progress_ms);
       setTrack(track);
       setFetching(false);
     }
@@ -46,7 +49,7 @@ export default function SpotifyModule({ className }: SpotifyModuleProps) {
     }
 
     const now = new Date().getTime();
-    const currentProgress = now - track.timestamp + track.progress_ms;
+    const currentProgress = now - start;
     var percent = (currentProgress / track.item.duration_ms);
     if (percent >= 1) {
       percent = 1;
