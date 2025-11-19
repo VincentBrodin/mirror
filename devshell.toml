@@ -1,0 +1,9 @@
+# https://numtide.github.io/devshell
+
+[devshell]
+packages = [
+  "bun",
+  "nodejs_24",
+  "typescript-language-server",
+  "tailwindcss-language-server",
+]
